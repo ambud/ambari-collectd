@@ -69,7 +69,6 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 		baseUrl = baseUrl.replace("{{ambari_collector_port}}", String.valueOf(instance.getAmbariMetricsPort()));
 		for (AppMetrics appMetric : appMetrics) {
 			PluginData pd = new PluginData();
-			pd.setPluginInstance(appMetric.getAppId());
 			pd.setPlugin(appMetric.getAppId());
 			baseUrl = baseUrl.replace("{{appId}}", appMetric.appId);
 			if (appMetric.getHostnames().size() == 0) {
@@ -104,9 +103,7 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 					JsonObject metrics = metric.get("metrics").getAsJsonObject();
 					for (Entry<String, JsonElement> entry : metrics.entrySet()) {
 						values.setValues(Arrays.asList(entry.getValue().getAsNumber()));
-						// pd.setTime(Long.parseLong(entry.getKey()));
-						pd.setTime(System.currentTimeMillis());
-//						System.out.println(values + "\t" + Long.parseLong(entry.getKey()));
+						values.setTime(Long.parseLong(entry.getKey()));
 						Collectd.dispatchValues(values);
 					}
 				}
@@ -116,6 +113,7 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 			}
 
 		}
+		ts = System.currentTimeMillis() - 60_000;
 		return 0;
 	}
 
@@ -179,7 +177,7 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 		if (instance == null || instance.getAmbariMetricsHostname() == null) {
 			return -1;
 		}
-		ts = System.currentTimeMillis() - 20_000;
+		ts = System.currentTimeMillis() - 60_000;
 		return 0;
 	}
 
