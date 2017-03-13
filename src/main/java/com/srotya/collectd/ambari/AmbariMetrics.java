@@ -70,7 +70,7 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 		for (AppMetrics appMetric : appMetrics) {
 			PluginData pd = new PluginData();
 			pd.setPluginInstance(appMetric.getAppId());
-			pd.setPlugin("ambari");
+			pd.setPlugin(appMetric.getAppId());
 			baseUrl = baseUrl.replace("{{appId}}", appMetric.appId);
 			if (appMetric.getHostnames().size() == 0) {
 				continue;
