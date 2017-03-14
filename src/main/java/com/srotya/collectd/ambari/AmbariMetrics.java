@@ -86,14 +86,14 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 			baseUrl = baseUrl.replace("{{start_time}}", String.valueOf(ts));
 			baseUrl = baseUrl.replace("{{end_time}}", String.valueOf(System.currentTimeMillis()));
 
-			Collectd.logDebug("Ambari metrics base url:" + baseUrl);
+			Collectd.logInfo("Ambari metrics base url:" + baseUrl);
 
 			HttpGet request = new HttpGet(baseUrl);
 			CloseableHttpClient client = builder.build();
 			try {
 				CloseableHttpResponse response = client.execute(request);
 				String result = EntityUtils.toString(response.getEntity());
-				Collectd.logDebug("Ambari metrics result:" + result);
+				Collectd.logInfo("Ambari metrics result:" + result);
 				JsonObject object = new Gson().fromJson(result, JsonObject.class);
 				for (JsonElement element : object.get("metrics").getAsJsonArray()) {
 					JsonObject metric = element.getAsJsonObject();
