@@ -178,6 +178,7 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 			return -1;
 		}
 		ts = System.currentTimeMillis() - 60_000;
+		Collectd.logInfo("Configured Ambari Metrics Collectd Plugin with:" + instance.toString());
 		return 0;
 	}
 
