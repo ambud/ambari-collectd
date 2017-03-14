@@ -45,7 +45,7 @@ import com.google.gson.JsonObject;
 public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInterface, CollectdShutdownInterface {
 
 	private static final String AMBARI = "Ambari";
-	private static final String URL = "http://{{ambari_collector_host}}:{{ambari_collector_port}}/ws/v1/timeline/metrics?metricNames={{metric_name}}&hostname={{hostname}}&appId={{appId}}&precision=seconds";//&startTime={{start_time}}&endTime={{end_time}}";
+	private static final String URL = "http://{{ambari_collector_host}}:{{ambari_collector_port}}/ws/v1/timeline/metrics?metricNames={{metric_name}}&hostname={{hostname}}&appId={{appId}}&precision=seconds&startTime={{start_time}}&endTime={{end_time}}";
 	private AmbariInstance instance;
 	private List<AppMetrics> appMetrics;
 	private HttpClientBuilder builder;
