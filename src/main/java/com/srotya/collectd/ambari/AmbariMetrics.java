@@ -45,7 +45,7 @@ import com.google.gson.JsonObject;
 public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInterface, CollectdShutdownInterface {
 
 	private static final String AMBARI = "Ambari";
-	private static final String URL = "http://{{ambari_collector_host}}:{{ambari_collector_port}}/ws/v1/timeline/metrics?metricNames={{metric_name}}&hostname={{hostname}}&appId={{appId}}&precision=seconds&startTime={{start_time}}&endTime={{end_time}}";
+	private static final String URL = "http://{{ambari_collector_host}}:{{ambari_collector_port}}/ws/v1/timeline/metrics?metricNames={{metric_name}}&hostname={{hostname}}&appId={{appId}}&precision=seconds";//&startTime={{start_time}}&endTime={{end_time}}";
 	private AmbariInstance instance;
 	private List<AppMetrics> appMetrics;
 	private HttpClientBuilder builder;
@@ -86,14 +86,14 @@ public class AmbariMetrics implements CollectdConfigInterface, CollectdReadInter
 			baseUrl = baseUrl.replace("{{start_time}}", String.valueOf(ts));
 			baseUrl = baseUrl.replace("{{end_time}}", String.valueOf(System.currentTimeMillis()));
 
-			Collectd.logInfo("Ambari metrics base url:" + baseUrl);
+			Collectd.logDebug("Ambari metrics base url:" + baseUrl);
 
 			HttpGet request = new HttpGet(baseUrl);
 			CloseableHttpClient client = builder.build();
 			try {
 				CloseableHttpResponse response = client.execute(request);
 				String result = EntityUtils.toString(response.getEntity());
-				Collectd.logInfo("Ambari metrics result:" + result);
+				Collectd.logDebug("Ambari metrics result:" + result);
 				JsonObject object = new Gson().fromJson(result, JsonObject.class);
 				for (JsonElement element : object.get("metrics").getAsJsonArray()) {
 					JsonObject metric = element.getAsJsonObject();
